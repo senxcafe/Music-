@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -28,13 +28,11 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Grant Execute Permission for Gradle Wrapper
-        working-directory: MusicApp/AppleMusicLocalPlayer-APK
-        run: chmod +x gradlew
-
-      - name: Build APK
-        working-directory: MusicApp/AppleMusicLocalPlayer-APK
-        run: ./gradlew assembleDebug --no-daemon
+      - name: Grant Execute Permission and Build APK
+        run: |
+          cd MusicApp/AppleMusicLocalPlayer-APK
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
