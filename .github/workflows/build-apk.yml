@@ -28,20 +28,13 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Grant Execute Permission and Build APK
-        run: |
-          if [ -f "gradlew" ]; then
-            chmod +x gradlew
-            ./gradlew assembleDebug --no-daemon
-          else
-            cd $(find . -maxdepth 3 -name "gradlew" -exec dirname {} \;)
-            chmod +x gradlew
-            ./gradlew assembleDebug --no-daemon
-          fi
+      - name: Build APK
+        working-directory: AppleMusicLocalPlayer-APK
+        run: gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: "**/build/outputs/apk/debug/*.apk"
+          path: AppleMusicLocalPlayer-APK/app/build/outputs/apk/debug/*.apk
           
